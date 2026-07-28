@@ -1540,6 +1540,35 @@
 
 <script type="text/javascript">setTimeout(function () {var i = document.createElement("iframe"),oid = new URLSearchParams(window.location.search);i.async = true;i.style="display:none";i.setAttribute("src", "https://buygoods.com/affiliates/go/conversion/iframe/bg?a=12308&t=fa1ddb12f5e0bdbc570b8695b11b0c07&s="+ReadCookie('sessid2'));document.body.appendChild(i);}, 1000);</script>
 
+<script>
+(function() {
+    var DOMAIN = "5vori.ttrk.io";
+    var EVENT = "InitiateCheckout";
+
+    function getClickId() {
+        var m = document.cookie.match(/(?:^|;\s*)rtkclickid-store=([^;]*)/);
+        if (m) return decodeURIComponent(m[1]);
+        try { return new URLSearchParams(location.search).get("rtkcid"); } catch(e) {}
+        return null;
+    }
+
+    document.addEventListener("click", function(e) {
+        var a = e.target.closest && e.target.closest("a[href]");
+        if (!a || a.href.indexOf("/click") === -1) return;
+
+        var cid = getClickId();
+        if (!cid) return;
+
+        try { if (sessionStorage.getItem("rtk_ic") === cid) return; } catch(e) {}
+
+        var url = "https://" + DOMAIN + "/postback?clickid=" + encodeURIComponent(cid) + "&type=" + EVENT;
+        navigator.sendBeacon ? navigator.sendBeacon(url) : (new Image().src = url);
+
+        try { sessionStorage.setItem("rtk_ic", cid); } catch(e) {}
+    }, true);
+})();
+</script>
+    
 <script type="text/javascript" src="https://lp.gforcehorse.site/track.js"></script>
   </body>
 </html>
